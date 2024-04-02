@@ -1,4 +1,4 @@
-package org.gamenet.dkienenb.interactivefiction.game1;
+package org.gamenet.dkienenb.interactivefiction.game1.objects;
 
 public enum Direction {
 

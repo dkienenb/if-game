@@ -1,9 +1,11 @@
-package org.gamenet.dkienenb.interactivefiction.game1;
+package org.gamenet.dkienenb.interactivefiction.game1.components;
 
 import org.gamenet.dkienenb.component.ComponentedObject;
 import org.gamenet.dkienenb.component.ListStoringComponent;
 
 public class ContainerComponent extends ListStoringComponent<ComponentedObject> {
+
+	public static final int UNLIMITED = -143;
 
 	public static enum ItemAcceptanceState {
 		YES,
@@ -17,17 +19,10 @@ public class ContainerComponent extends ListStoringComponent<ComponentedObject> 
 	private final int weightCapacity;
 	private final int spaceCapacity;
 
-	public ContainerComponent(int weightCapacity, int itemCapacity) {
+
+	public ContainerComponent(int weightCapacity, int spaceCapacity) {
 		this.weightCapacity = weightCapacity;
-		this.spaceCapacity = itemCapacity;
-	}
-
-	public ContainerComponent(int weightCapacity) {
-		this(weightCapacity, -1);
-	}
-
-	public ContainerComponent() {
-		this(-1);
+		this.spaceCapacity = spaceCapacity;
 	}
 
 	public boolean hasWeightLimit() {
@@ -42,9 +37,8 @@ public class ContainerComponent extends ListStoringComponent<ComponentedObject> 
 		if (hasSizeLimit()) {
 			int usedSpace = usedSpace();
 			return spaceCapacity - usedSpace;
-		} else {
-			return Integer.MAX_VALUE;
 		}
+		return Integer.MAX_VALUE;
 	}
 
 	public int usedSpace() {
@@ -55,9 +49,8 @@ public class ContainerComponent extends ListStoringComponent<ComponentedObject> 
 		if (hasSizeLimit()) {
 			int usedWeight = usedWeight();
 			return weightCapacity - usedWeight;
-		} else {
-			return Integer.MAX_VALUE;
 		}
+		return Integer.MAX_VALUE;
 	}
 
 	public int usedWeight() {
@@ -89,4 +82,5 @@ public class ContainerComponent extends ListStoringComponent<ComponentedObject> 
 	public void forceAddItem(ComponentedObject item) {
 		add(item);
 	}
+
 }
