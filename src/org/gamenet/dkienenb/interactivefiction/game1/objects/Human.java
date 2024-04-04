@@ -1,10 +1,11 @@
 package org.gamenet.dkienenb.interactivefiction.game1.objects;
 
-import java.util.List;
-
 import org.gamenet.dkienenb.component.ComponentedObject;
+import org.gamenet.dkienenb.event.EventListenerPriorityLevel;
 import org.gamenet.dkienenb.interactivefiction.game1.actions.Action;
 import org.gamenet.dkienenb.interactivefiction.game1.components.*;
+
+import java.util.List;
 
 public class Human extends ComponentedObject {
 
@@ -19,7 +20,8 @@ public class Human extends ComponentedObject {
 		addComponent(new ContainerComponent(carryingCapacityWeight, carryingCapacityItems));
 		addComponent(new NameComponent(name));
 		addComponent(new ActorPriorityComponent());
-		addComponent(new ActorComponent());
+		addComponent(new ActorFeedbackComponent());
+		addComponent(new ActorComponent(EventListenerPriorityLevel.REACT_HIGH));
 		addComponent(new ExternalDescriptionComponent(description));
 		addComponent(new VisibleComponent());
 	}

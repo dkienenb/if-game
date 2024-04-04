@@ -24,6 +24,7 @@ public class Main {
 	public static Random random_for_world_generation;
 
 	public static void killProgram() {
+		MAIN_BUS.cancelAll();
 		running = false;
 	}
 
@@ -47,8 +48,9 @@ public class Main {
 		Human player = new Human("Player", "A cretin is standing here.", startingRoom);
 		player.addComponent(new EyesComponent());
 		player.addComponent(new PlayerControlledComponent());
-
 		OUT.outputLine("World creation complete.");
+
+		player.getComponent(EyesComponent.class).lookAround();
 	}
 
 	private static long seedRandom() {
