@@ -10,6 +10,9 @@ import org.gamenet.dkienenb.interactivefiction.game1.objects.Room;
 import org.gamenet.dkienenb.textgamecomponents.Inputer;
 import org.gamenet.dkienenb.textgamecomponents.Outputer;
 
+import java.util.List;
+import java.util.Random;
+
 public class Main {
 
 	public static final EventBus MAIN_BUS = new EventBus();
@@ -18,14 +21,31 @@ public class Main {
 	public static final Parser PARSER = new Parser();
 
 	private static boolean running = true;
+	public static Random random_for_world_generation;
 
 	public static void killProgram() {
 		running = false;
 	}
 
 	public static void main(String[] args) {
+		OUT.outputLine("Enter seed (leave blank for random, the intended experience):");
+		long seed;
+		List<String> input = IN.input();
+		try {
+			seed = Long.parseLong(input.get(0));
+		}
+		catch (NumberFormatException e) {
+			if (input.get(0).equals("")) {
+				seed = new Random().nextLong();
+			} else {
+				seed = input.hashCode();
+			}
+		}
+		random_for_world_generation = new Random(seed);
+		OUT.outputLine("Commencing world creation with seed " + seed + "...");
 		Room startingRoom = new Room("Starting room", "You are in a test room, full of bugs.");
 		Human player = new Human("Player", "A cretin is standing here.", startingRoom);
+		OUT.outputLine("World creation complete.");
 		player.addComponent(new EyesComponent());
 		player.addComponent(new PlayerControlledComponent());
 		while (running) {
