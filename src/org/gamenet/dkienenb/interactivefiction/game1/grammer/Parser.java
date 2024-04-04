@@ -9,7 +9,11 @@ import java.util.List;
 public class Parser {
 
     public void loadNext() {
-        Main.IN.input();
+        List<String> input = Main.IN.input();
+        String command = input.get(0);
+        if (command.equals("quit")) {
+            Main.killProgram();
+        }
     }
 
     public Action getAction() {

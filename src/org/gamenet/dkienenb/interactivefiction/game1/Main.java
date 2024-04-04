@@ -17,12 +17,18 @@ public class Main {
 	public static final Inputer IN = new Inputer(OUT, "> ");
 	public static final Parser PARSER = new Parser();
 
+	private static boolean running = true;
+
+	public static void killProgram() {
+		running = false;
+	}
+
 	public static void main(String[] args) {
 		Room startingRoom = new Room("Starting room", "You are in a test room, full of bugs.");
 		Human player = new Human("Player", "A cretin is standing here.", startingRoom);
 		player.addComponent(new EyesComponent());
 		player.addComponent(new PlayerControlledComponent());
-		while (true) {
+		while (running) {
 			if (MAIN_BUS.hasNextEvent()) {
 				MAIN_BUS.callNextEvent();
 			} else {
