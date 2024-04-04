@@ -3,14 +3,20 @@ package org.gamenet.dkienenb.interactivefiction.game1.components;
 import org.gamenet.dkienenb.component.ComponentedObject;
 import org.gamenet.dkienenb.component.ListStoringComponent;
 
+import java.util.stream.Stream;
+
 public class ContainerComponent extends ListStoringComponent<ComponentedObject> {
 
-	public static final int UNLIMITED = -143;
+	public static class Constants {
+		public static final int HUMAN_STRENGTH = 100;
+		public static final int HUMAN_CARRYING_LIMIT = 8;
+		public static final int UNLIMITED = -143;
+	}
 
-	public static enum ItemAcceptanceState {
+	public enum ItemAcceptanceState {
 		YES,
 		TOO_HEAVY,
-		TOO_BIG;
+		TOO_BIG
 	}
 
 	/**
@@ -33,7 +39,11 @@ public class ContainerComponent extends ListStoringComponent<ComponentedObject> 
 		return spaceCapacity >= 0;
 	}
 
-	public int availibleSpace() {
+	public Stream<ComponentedObject> streamItems() {
+		return stream();
+	}
+
+	public int availableSpace() {
 		if (hasSizeLimit()) {
 			int usedSpace = usedSpace();
 			return spaceCapacity - usedSpace;
@@ -42,10 +52,10 @@ public class ContainerComponent extends ListStoringComponent<ComponentedObject> 
 	}
 
 	public int usedSpace() {
-		return stream().mapToInt(object -> object.getComponent(ContainableComponent.class).getSize()).sum();
+		return streamItems().mapToInt(object -> object.getComponent(ContainableComponent.class).getSize()).sum();
 	}
 
-	public int availibleWeight() {
+	public int availableWeight() {
 		if (hasSizeLimit()) {
 			int usedWeight = usedWeight();
 			return weightCapacity - usedWeight;
@@ -59,16 +69,20 @@ public class ContainerComponent extends ListStoringComponent<ComponentedObject> 
 
 	public ItemAcceptanceState canAcceptItem(ComponentedObject item) {
 		if (hasSizeLimit()) {
-			if (availibleSpace() < item.getComponent(ContainableComponent.class).getSize()) {
+			if (availableSpace() < item.getComponent(ContainableComponent.class).getSize()) {
 				return ItemAcceptanceState.TOO_BIG;
 			}
 		}
 		if (hasWeightLimit()) {
-			if (availibleSpace() < item.getComponent(ContainableComponent.class).getWeight()) {
+			if (availableWeight() < item.getComponent(ContainableComponent.class).getWeight()) {
 				return ItemAcceptanceState.TOO_HEAVY;
 			}			
 		}
 		return ItemAcceptanceState.YES;
+	}
+
+	public boolean contains(ComponentedObject item) {
+		return getValue().contains(item);
 	}
 
 	public ItemAcceptanceState addItem(ComponentedObject item) {
@@ -80,7 +94,18 @@ public class ContainerComponent extends ListStoringComponent<ComponentedObject> 
 	}
 
 	public void forceAddItem(ComponentedObject item) {
-		add(item);
+		getValue().add(item);
+		LocationComponent locationComponent = item.getComponent(LocationComponent.class);
+		if (!locationComponent.getLocation().equals(getAttached())) {
+			locationComponent.setLocation(getAttached());
+		}
+	}
+	public void forceRemoveItem(ComponentedObject item) {
+		getValue().remove(item);
+		LocationComponent locationComponent = item.getComponent(LocationComponent.class);
+		if (locationComponent.getLocation() != null) {
+			locationComponent.setLocation(null);
+		}
 	}
 
 }
