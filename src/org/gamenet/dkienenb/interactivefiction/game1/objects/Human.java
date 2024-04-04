@@ -20,7 +20,7 @@ public class Human extends ComponentedObject {
 		addComponent(new NameComponent(name));
 		addComponent(new ActorPriorityComponent());
 		addComponent(new ActorComponent());
-		addComponent(new DescriptionComponent(description));
+		addComponent(new ExternalDescriptionComponent(description));
 		addComponent(new VisibleComponent());
 	}
 

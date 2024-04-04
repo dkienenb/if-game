@@ -2,9 +2,9 @@ package org.gamenet.dkienenb.interactivefiction.game1.components;
 
 import org.gamenet.dkienenb.component.MutableDataStoringComponent;
 
-public class DescriptionComponent extends MutableDataStoringComponent<String> {
+public class ExternalDescriptionComponent extends MutableDataStoringComponent<String> {
 
-	public DescriptionComponent(String description) {
+	public ExternalDescriptionComponent(String description) {
 		setDescription(description);
 	}
 

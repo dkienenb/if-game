@@ -9,7 +9,7 @@ public class VisibleComponent extends MutableDataStoringComponent<Boolean> {
     @Override
     public List<Class<? extends Component>> getDependencies() {
         List<Class<? extends Component>> dependencies = super.getDependencies();
-        dependencies.add(DescriptionComponent.class);
+        dependencies.add(ExternalDescriptionComponent.class);
         return dependencies;
     }
 
