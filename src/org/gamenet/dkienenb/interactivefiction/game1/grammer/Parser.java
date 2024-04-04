@@ -51,7 +51,7 @@ public class Parser {
 
     private ComponentedObject parseNoun(String next) {
         if (next.equals("me")) {
-            return actor;
+            return getActor();
         }
         return null;
     }
